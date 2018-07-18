@@ -1,0 +1,5 @@
+# This is a static list of token issuers in the format:
+# <issuer name> :
+#     <key id 1>: <key>
+#     <key id 2>: <key>
+# <issuer 2 name>: <key>

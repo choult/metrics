@@ -1,0 +1,45 @@
+# Learn more about services, parameters and containers at
+# https://symfony.com/doc/current/service_container.html
+parameters:
+    statsd_host: stats
+    statsd_port: 8125
+    app_name: metrics
+
+services:
+    # default configuration for services in *this* file
+    _defaults:
+        # automatically injects dependencies in your services
+        autowire: true
+        # automatically registers your services as commands, event subscribers, etc.
+        autoconfigure: true
+        # this means you cannot fetch services directly from the container via $container->get()
+        # if you need to do this, you can override this setting on individual services
+        public: true
+
+    database:
+        class: \PDO
+        arguments:
+            - "mysql:dbname=%database_name%;host=%database_host%;port=%database_port%"
+            - "%database_user%"
+            - "%database_password%"
+
+    metrics.controller:
+        class: \Choult\Metrics\Controller
+        arguments:
+          - "@metrics.collector"
+
+    metrics.collector:
+        alias: metrics.statsd
+        class: Domnikl\Statsd\Client
+
+    metrics.statsd.connection:
+        class: Domnikl\Statsd\Connection\UdpSocket
+        arguments:
+            - "%statsd_host%"
+            - "%statsd_port%"
+
+    metrics.statsd:
+        class: Domnikl\Statsd\Client
+        arguments:
+            - "@metrics.statsd.connection"
+            - "%app_name%"

@@ -1,0 +1,7 @@
+bin
+var
+!bin/console
+.idea
+.data
+logs
+vendor

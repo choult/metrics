@@ -1,0 +1,12 @@
+
+metrics_home:
+  path: /
+  methods: [GET]
+  controller: metrics.controller:home
+
+metrics_event:
+  path: /event/{name}
+  methods: [GET]
+  controller: metrics.controller:event
+  requirements:
+    name: .+
