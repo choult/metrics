@@ -15,7 +15,7 @@ help:
 
 server:
 	@mkdir -p logs .data || true
-	@chmod -R a+wr docker/ca .data var logs || true
+	@chmod -R a+wr .data var logs || true
 	@TIMEZONE=$(TIMEZONE) docker-compose down --remove-orphans
 	@TIMEZONE=$(TIMEZONE) docker-compose build
 	@TIMEZONE=$(TIMEZONE) docker-compose up -d
